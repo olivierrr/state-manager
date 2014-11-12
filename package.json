@@ -1,6 +1,6 @@
 {
   "name": "state-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "versatile state managing abstraction",
   "main": "index.js",
   "browser": "index.js",
