@@ -1,4 +1,3 @@
-
 (function (factory) {
 
   if (typeof exports === 'object'){
@@ -8,13 +7,19 @@
   }
 
 }(function () {
-
+  var _defaultOpts = {
+    override : false
+  }
+  var ERRORS = {
+    STATE_EXISTS : 'Attempting to add state when already exists. Set override in opts to allow states to be overridden.'
+  }
   /**
    * @constructor
    * each 'state' is expected to have a 'create' method. 'preload' and 'destroy' methods are optional
    */
-  function StateManager (){
-
+  function StateManager (opts){
+    opts = opts || {};
+    this.opts = extend(_defaultOpts, opts);
     /**
      * @property {Hash#state}
      */
@@ -33,7 +38,9 @@
    * @param {Object#state}
    */
   StateManager.prototype.add = function(name, obj) {
+    var state = this.states[name]
 
+    if(state && !this.opts.override) throw new Error(ERRORS.STATE_EXISTS)
     this.states[name] = obj
 
     return this
@@ -75,4 +82,25 @@
     }
   }
 
+  function extend (to, from) {
+    var newObj = {}
+    keys(to).forEach(function(key){
+      if(from[key] != null) return newObj[key] = from[key];
+      newObj[key] = to[key];
+    });
+    return newObj;
+  }
+  function keys (obj) {
+    if(typeof Object.keys === 'function') return Object.keys(obj);
+    var ret = [];
+    if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+      throw new TypeError('Object.keys called on non-object')
+    }
+    for(key in obj){
+      if(obj.hasOwnProperty(key)) ret.push(obj[key])
+    }
+    return ret;
+  }
+
 }))
+
