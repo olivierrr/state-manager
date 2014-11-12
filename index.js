@@ -1,3 +1,4 @@
+
 (function (factory) {
 
   if (typeof exports === 'object'){
@@ -8,21 +9,16 @@
 
 }(function () {
 
-  var _defaultOpts = {
-    override : false
-  }
-
   var ERRORS = {
-    STATE_EXISTS : 'Attempting to add state when already exists. Set override in opts to allow states to be overridden.'
+    STATE_EXISTS : 'Attempting to add state that already exists.',
+    STATE_DOES_NOT_EXIST : 'Attempting to activate a state that does not exist.'
   }
 
   /**
    * @constructor
    * each 'state' is expected to have a 'create' method. 'preload' and 'destroy' methods are optional
    */
-  function StateManager (opts){
-    opts = opts || {};
-    this.opts = extend(_defaultOpts, opts)
+  function StateManager (){
 
     /**
      * @property {Hash#state}
@@ -42,9 +38,11 @@
    * @param {Object#state}
    */
   StateManager.prototype.add = function(name, obj) {
-    var state = this.states[name]
 
-    if(state && !this.opts.override) throw new Error(ERRORS.STATE_EXISTS)
+    if(this.states[name]) {
+      console.warn(ERRORS.STATE_EXISTS)
+    }
+
     this.states[name] = obj
 
     return this
@@ -58,8 +56,7 @@
   StateManager.prototype.go = function(name) {
 
     if(!this.states[name]){
-      console.warn(name + ' state does not exist.')
-      return
+      console.warn(ERRORS.STATE_DOES_NOT_EXIST)
     } else {
 
       if(this.currentState && this.currentState.destroy){
@@ -70,9 +67,7 @@
 
       if(this.currentState.preload){
         var self = this
-        this.currentState.preload(function () {
-          self.currentState.create()
-        })
+        this.currentState.preload(function () { self.currentState.create() })
       } else {
         this.currentState.create()
       }
@@ -86,25 +81,4 @@
     }
   }
 
-  function extend (to, from) {
-    var newObj = {}
-    keys(to).forEach(function(key){
-      if(from[key] != null) return newObj[key] = from[key];
-      newObj[key] = to[key];
-    });
-    return newObj;
-  }
-  function keys (obj) {
-    if(typeof Object.keys === 'function') return Object.keys(obj);
-    var ret = [];
-    if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
-      throw new TypeError('Object.keys called on non-object')
-    }
-    for(key in obj){
-      if(obj.hasOwnProperty(key)) ret.push(obj[key])
-    }
-    return ret;
-  }
-
 }))
-
