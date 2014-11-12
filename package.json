@@ -1,7 +1,7 @@
 {
-  "name": "state-manager",
+  "name": "estate-manager",
   "version": "1.0.0",
-  "description": "versatile state managing abstraction",
+  "description": "versatile estate managing abstraction",
   "main": "index.js",
   "browser": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/olivierrr/state-manager"
+    "url": "https://github.com/olivierrr/estate-manager"
   },
   "keywords": [
     "state",
@@ -18,7 +18,7 @@
   "author": "olivierrr",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/olivierrr/state-manager/issues"
+    "url": "https://github.com/olivierrr/estate-manager/issues"
   },
   "homepage": "https://github.com/olivierrr/estate-manager",
   "devDependencies": {

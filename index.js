@@ -7,19 +7,23 @@
   }
 
 }(function () {
+
   var _defaultOpts = {
     override : false
   }
+
   var ERRORS = {
     STATE_EXISTS : 'Attempting to add state when already exists. Set override in opts to allow states to be overridden.'
   }
+
   /**
    * @constructor
    * each 'state' is expected to have a 'create' method. 'preload' and 'destroy' methods are optional
    */
   function StateManager (opts){
     opts = opts || {};
-    this.opts = extend(_defaultOpts, opts);
+    this.opts = extend(_defaultOpts, opts)
+
     /**
      * @property {Hash#state}
      */
