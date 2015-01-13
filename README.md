@@ -1,7 +1,7 @@
 state-manager
 =============
 
-versatile state managing abstraction
+pathless router, similar to Phaser's implementation. Useful for games.
 
 ### usage
 
